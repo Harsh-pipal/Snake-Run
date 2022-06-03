@@ -43,7 +43,7 @@ function gameEngine(){
         bgmusic.pause();
         alert("Game Over, Press any key to play again");
         snakeArray = [{x:5,y:10}];
-        // bgmusic.play();
+        bgmusic.play();
         score = 0;
     }
 
