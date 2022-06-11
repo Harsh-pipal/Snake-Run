@@ -1,9 +1,10 @@
 //constants and variables
 let inputDir = {x:0,y:0}             //direction of my snake
-let speed =10;
+let speed =8;
 let lastPaintTime = 0;
 let snakeArray = [{x:5,y:10}];
 let score = 0;
+let currscore = 0;
 const bgmusic = new Audio("Monkeys-Spinning-Monkeys.mp3");
 const gameover = new Audio("gameover.wav");
 food = {x:13,y:5};
@@ -16,6 +17,7 @@ function main(ctime){
     if((ctime - lastPaintTime)/1000 < 1/speed){          //adjusting FPS...speed=2 thus 0.5FPS
         return
     }
+    
     lastPaintTime = ctime;
     gameEngine();
 }
@@ -36,7 +38,7 @@ function isCollide(snakeArray){
 
 function gameEngine(){
     //part1 is to update snake size, food and direction
-
+    bgmusic.play();
     if(isCollide(snakeArray)){
         gameover.play();
         inputDir = {x:0,y:0};
@@ -45,8 +47,13 @@ function gameEngine(){
         snakeArray = [{x:5,y:10}];
         bgmusic.play();
         score = 0;
+        speed=8;
+        currscore=0;
     }
-
+    if(score%4==0 && score!=currscore){
+        speed+=2;
+        currscore=score;
+    }
     //snake successfully eats the food
     if(snakeArray[0].x==food.x && snakeArray[0].y==food.y){
         snakeArray.unshift({x:snakeArray[0].x + inputDir.x,y:snakeArray[0].y + inputDir.y});
@@ -95,7 +102,7 @@ function gameEngine(){
 
 //main logic
 window.requestAnimationFrame(main);
-bgmusic.play();
+
 window.addEventListener('keydown',e=>{
     inputDir = {x:0,y:0};
     switch (e.key){
